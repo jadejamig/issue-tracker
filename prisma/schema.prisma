@@ -1,0 +1,29 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// use Pascal naming convention
+model Issue {
+  id          Int      @id @default(autoincrement())
+  title       String   @db.VarChar(255) //Override default value of 191 characters long
+  description String   @db.Text
+  status      Status   @default(OPEN)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt // updates whenever a value is updated
+}
+
+// Common practice is ALL CAPITALIZED
+// No need to separate by comma
+enum Status {
+  OPEN
+  IN_PROGRESS
+  CLOSED
+}
