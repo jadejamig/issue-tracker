@@ -2,7 +2,7 @@
 
 import ErrorMessage from '@/app/components/ErrorMessage';
 import Spinner from '@/app/components/Spinner';
-import { createIssueSchema } from '@/app/validationSchemas';
+import { issueSchema } from '@/app/validationSchemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Issue } from '@prisma/client';
 import { Button, Callout, TextArea, TextField } from '@radix-ui/themes';
@@ -21,22 +21,36 @@ import { z } from 'zod';
 
 // Get schema from zod issue validation schema
 // instead of declaring another interface
-type IssueFormData = z.infer<typeof createIssueSchema>;
+type IssueFormData = z.infer<typeof issueSchema>;
 
 const IssueForm = ({ issue }: { issue?: Issue}) => {
+
     const router = useRouter();
+
     const { register, handleSubmit, formState: { errors } } = useForm<IssueFormData>({
-        resolver: zodResolver(createIssueSchema) 
+        resolver: zodResolver(issueSchema) 
     });
 
     const [error, setError] = useState('');
     const [isSubmitting, setSubmitting] = useState(false);
-
+    
     const onSubmit = handleSubmit(async (data) => {
         try {
             setSubmitting(true);
-            await axios.post('/api/issues', data)
+            
+            if (issue) {
+                console.log('updating issue...')
+                await axios.patch(`/api/issues/${issue.id}`, data)
+            } 
+            else {
+                console.log('creating new issue...')
+                await axios.post('/api/issues', data)
+            }
+
             router.push('/issues');
+            // Force router to refresh content of current route/page
+            router.refresh();
+
         } catch (error) {
             setSubmitting(false);
             setError('An unexpected error occured.');
@@ -63,7 +77,7 @@ const IssueForm = ({ issue }: { issue?: Issue}) => {
                 <TextArea defaultValue={issue?.description} placeholder='Description' {...register('description')}/>
                 <ErrorMessage>{errors.description?.message}</ErrorMessage>
                 <Button disabled={isSubmitting}>
-                    { issue ? 'Save' : 'Submit New Issue'}
+                    { issue ? 'Update Issue' : 'Submit New Issue'}{' '}
                     { isSubmitting && <Spinner/>}
                 </Button>
 
