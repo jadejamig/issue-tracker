@@ -1,6 +1,6 @@
 import prisma from '@/prisma/client'
-import { Button, Table } from '@radix-ui/themes'
-import Link from 'next/link'
+import { Link as RadixLink, Table } from '@radix-ui/themes'
+import NextLink from 'next/link'
 import React from 'react'
 import IssueStatusBadge from '../components/IssueStatusBadge'
 import delay from 'delay';
@@ -28,9 +28,16 @@ const IssuesPage = async () => {
           {issues.map(issue => (
             <Table.Row key={issue.id}>
               <Table.Cell>
-                <Link href={`/issues/${issue.id}`}>
-                  {issue.title}
-                </Link>
+                <NextLink href={`/issues/${issue.id}`} passHref legacyBehavior>
+                  {/* 
+                    RadixLink for styling
+                    needs passHref and legacyBehavior props to enable radix link inside next link
+                  */}
+                  <RadixLink>
+                    {issue.title}
+                  </RadixLink>
+                  
+                </NextLink>
                 <div className='block md:hidden'>
                   <IssueStatusBadge status={issue.status}/>
                 </div>

@@ -1,7 +1,7 @@
 import { Text } from '@radix-ui/themes';
 import React, { PropsWithChildren } from 'react';
 
-const ErrorMessage = ({children}: PropsWithChildren ) => {
+const ErrorMessage = ({children}: {children: string | undefined} ) => {
     if (!children) return null;
 
     return (
