@@ -13,7 +13,7 @@ const LoadingIssueDetails = () => {
             <Skeleton width='5rem'/>
         </Flex>
         <Card mt='4'>
-            <Skeleton count={5}/>
+            <Skeleton count={3}/>
         </Card>
     </div>
   )

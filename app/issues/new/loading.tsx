@@ -1,15 +1,3 @@
-import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
+import IssueFormSkeleton from "../_components/IssueFormSkeleton";
 
-const LoadingNewIssuePage = () => {
-  return (
-    <div className='max-w-xl'>
-        <form className='space-y-3'>
-            <Skeleton/>
-            <Skeleton height='20rem'/>
-        </form>
-    </div>
-  )
-}
-
-export default LoadingNewIssuePage
+export default IssueFormSkeleton;
