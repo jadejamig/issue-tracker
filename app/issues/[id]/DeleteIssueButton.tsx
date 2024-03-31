@@ -19,7 +19,7 @@ const EditIssueButton = ({ issueId }: { issueId: number}) => {
             setDeleting(true);
             await axios.delete(`/api/issues/${issueId}`, {data: {}})
     
-            router.push('/issues');
+            router.push('/issues/list');
             // Force router to refresh content of current route/page
             router.refresh();
     

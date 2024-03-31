@@ -47,7 +47,7 @@ const IssueForm = ({ issue }: { issue?: Issue}) => {
                 await axios.post('/api/issues', data)
             }
 
-            router.push('/issues');
+            router.push('/issues/list');
             // Force router to refresh content of current route/page
             router.refresh();
 
