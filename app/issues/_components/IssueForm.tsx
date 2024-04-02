@@ -39,11 +39,9 @@ const IssueForm = ({ issue }: { issue?: Issue}) => {
             setSubmitting(true);
             
             if (issue) {
-                console.log('updating issue...')
                 await axios.patch(`/api/issues/${issue.id}`, data)
             } 
             else {
-                console.log('creating new issue...')
                 await axios.post('/api/issues', data)
             }
 
